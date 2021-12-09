@@ -47,4 +47,4 @@ but all final layers must use same activation.
 
 
 
-For the implementation refer the report
+For the implementation refer the report.
