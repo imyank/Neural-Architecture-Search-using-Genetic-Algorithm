@@ -7,44 +7,30 @@ fined as having a test accuracy above 75% and the lowest parameter count
 model your algorithm can find
 CNN Architecture Constraints
 
-Your search algorithm should search for models with the following basic struc-
-ture. Sequential model (no skip connections) having the following layers,
+## Process:
 
-• Any number of normal(NC) CNN layers
-– torch.nn.Conv2d or tf.keras.layers.Conv2D
-– A normal CNN layer has the following constraints,
-∗ stride=1
-∗ padding=same
-∗ 1 <= kernel size < 8
-∗ Any of the following activation functions,
-· relu
-· sigmoid
-· tanh
-· swish
-· gelu
+For this project we have used genetic algorithm. Following are the steps that have been used to solve the problem statement
 
-• Exactly 2 reduction(RC) CNN layers
-– torch.nn.Conv2d or tf.keras.layers.Conv2D
-– A reduction layer has the same constraints as the normal layer except
-the following,
-∗ stride=2
-∗ padding=valid
+1. Since we are supposed to optimise the parameters of the given CNN network, a general CNN network is made considering the constraints mentioned.
+2. First the parameters are initialized with a range of available choices.
+3. The Roulette fitness function is written by taking the weight(importance) of each species and selecting two parents with max fitness value.
+4. Crossover has been done in different way. Instead of flipping parameter value one child with one parent, we are randomly deciding which the parent to be flipped.
+5. Mutation/flipping has been achieved by changing the gene of children by changing the epoch(adding some integer to existing epoch number). This differentiates the two consecutive children.
 
-• Exactly the following structure as the final layers,
-– First, a Global Average Pooling 2D layer.
-∗ torch.nn.AvgPool2d(kernel size=layer input image size)
-or tf.keras.layers.GlobalAveragePooling2D
-– Then, a Fully Connected/Dense layer with 64 units (such that output
-is shape (batch size, 10)).
-∗ This layer can have any of the allowed activations in NC layer
-but all final layers must use same activation.
-∗ torch.nn.Linear(64) or tf.keras.layers.Dense(64)
-– Then, a Fully Connected/Dense layer with 10 units (such that output
-is shape (batch size, 10))
-∗ This layer can have any of the allowed activations in NC layer
-but all final layers must use same activation.
-∗ torch.nn.Linear(10) or tf.keras.layers.Dense(10)
+## Best Architecture:
+
+The best architecture returned by our searching algorithm is:
+
+1. In normal layers(NC) filter size = 16, kernel size = 6, activation = relu
+2. In 2 reduction layers(RC) filter size = 64, kernel size = 3, activation = tanh
+3. In dense layers activation = sigmoid
+
+Final genome string we got: NC 16 6 relu;RC 64 3 tanh;RC 64 3 tanh;FL sigmoid
+
+Total number of parameters: 51610 Test set accuracy: 81.84%
 
 
+
+For detail problem statement refer to problem statement pdf.
 
 For the implementation refer the report.
